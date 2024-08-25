@@ -1,10 +1,10 @@
-Correct Questions Pipeline
+# Correct Questions Pipeline
 
 This project processes noisy or disfluent questions, corrects them to generate coherent versions, and evaluates the contextual similarity between the original and corrected questions. The pipeline is implemented in Python and utilizes a language model to correct and evaluate the questions.
 
-Steps Involved
+# Steps Involved
 
-Question Correction:
+#### `Question Correction:`
 
 The function correctQuestions() is used to correct disfluent questions by sending a prompt to a pre-trained language model (e.g., mistral-openorca:latest).
 The disfluent question is corrected to be coherent, grammatically accurate, and contextually aligned with the intended meaning.
