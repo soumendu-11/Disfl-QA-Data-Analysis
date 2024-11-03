@@ -1,47 +1,42 @@
-# Correct Questions Pipeline
+Assignment Summary & Outcomes
+Objective
+The goal of this project is to develop a model that automates the labeling of text present in the "paragraph" column of a given dataset. The dataset contains 10 different labels/classes, and the objective is to accurately label judicial opinions based on these categories.
 
-This project processes noisy or disfluent questions, corrects them to generate coherent versions, and evaluates the contextual similarity between the original and corrected questions. The pipeline is implemented in Python and utilizes a language model to correct and evaluate the questions.
+Approach
+To tackle this problem, I employed two distinct techniques:
 
-# Steps Involved
+Mistral-OpenOrca (LLM) Model:
 
-#### `Question Correction:`
+I utilized the Mistral-OpenOrca model hosted on the Ollama server (locally).
+A prompt specifying the 10 different classes was created, and the LLM was tasked with labeling the text accordingly.
+No training of the model was performed in this approach.
+The performance of the model was evaluated based on the contextual similarity between its predictions and the original labels.
 
-The function correctQuestions() is used to correct disfluent questions by sending a prompt to a pre-trained language model (e.g., mistral-openorca:latest).
-The disfluent question is corrected to be coherent, grammatically accurate, and contextually aligned with the intended meaning.
+DistilBERT-base-uncased Model:
 
-#### `Processing DataFrame for Question Correction:`
+For task-specific fine-tuning, I employed the DistilBERT-base-uncased model.
+Given the highly imbalanced nature of the dataset, I selected the two most frequently occurring classes for fine-tuning.
+I evaluated the performance of the fine-tuned model.
+Due to computational limitations, I opted for a lightweight model and utilized a very limited number of data points.
+Requirements & observations
+To run the project, please follow these instructions:
 
-The df2CorrectQuestions() function takes a pandas DataFrame with a column disfluent containing noisy questions.
-It generates a new column correct_question with the corrected questions by applying the correction function to each row.
 
-#### `Contextual Evaluation:`
+Installing Ollama:
 
-The evaluateQuestions() function compares the original question and the corrected question using the same language model to determine if they are contextually similar.
-The function returns 1 if the questions are contextually similar and 0 otherwise.
+For detailed installation instructions, please visit: Ollama Installation.
+Pulling the Mistral-OpenOrca Model:
 
-#### `Saving the Results:`
+After installation, you can pull the Mistral-OpenOrca model by running the following command in your terminal:
+Copy code
+ollama pull mistral-openorca:latest
+Dependencies:
 
-The corrected questions and their evaluation results are saved in a CSV file (corrected_questions_with_evaluation.csv) in the local directory.
-The output is saved with the | delimiter for easier parsing.
+A requirements.txt file is attached with the necessary dependencies for this project. Ensure to install all required packages listed in this file.
+Conclusion
+This project aims to provide an effective solution for automating the labeling of judicial opinions using state-of-the-art machine learning techniques. The combination of LLM and fine-tuned models addresses the complexity of the task while accounting for dataset imbalances.
 
-#### `Functions`
+For further information, please refer to the attached documentation and the requirements file.
 
-correctQuestions(prompt: str, model="mistral-openorca:latest"): Sends a prompt to a language model to correct a disfluent question and returns the corrected version.
-
-df2CorrectQuestions(dataframe: pd.DataFrame, model=None): Takes a DataFrame with a disfluent column, generates corrected questions, and returns a DataFrame with a new correct_question column.
-
-evaluateQuestions(dataframe: pd.DataFrame, model="mistral-openorca:latest"): Compares the original and corrected questions for contextual similarity, adding a new column evaluation with the results (1 for similar, 0 for not similar).
-
-#### `CSV Output Format`
-
-The output CSV will contain the following columns:
-disfluent: The original noisy/disfluent question.
-original: The original intended question.
-correct_question: The corrected version of the disfluent question.
-evaluation: The context similarity score (1 for similar, 0 for not similar).
-
-#### `Usage`
-
-Prepare a DataFrame with columns disfluent and original.
-Run the correction and evaluation pipeline.
-Check the output in the CSV file corrected_questions_with_evaluation.csv.
+I noticed overfitting in the case of fine-tuning. 
+I added comments in the code to help understand it better. 
