@@ -26,3 +26,13 @@ For detailed installation instructions, please visit: [Ollama Installation](http
 After installation, you can pull the Mistral-OpenOrca model by running the following command in your terminal:
 ```bash
 ollama pull mistral-openorca:latest
+
+
+## Dependencies
+A requirements.txt file is included with the necessary dependencies for this project. Ensure to install all required packages listed in this file.
+
+## Observations
+Noticed overfitting in the case of fine-tuning.
+Comments have been added in the code to enhance understanding.
+## Conclusion
+This project aims to provide an effective solution for automating the labeling of judicial opinions using state-of-the-art machine learning techniques. The combination of LLM and fine-tuned models addresses the complexity of the task while accounting for dataset imbalances.
