@@ -20,11 +20,10 @@ To tackle this problem, two distinct techniques were employed:
 ## Requirements & Installation
 
 ### Installing Ollama
-For detailed installation instructions, please visit: [Ollama Installation](https://ollama.com/download/windows).
+- For detailed installation instructions, please visit: [Ollama Installation](https://ollama.com/download/windows).
 
 ### Pulling the Mistral-OpenOrca Model
-After installation, you can pull the Mistral-OpenOrca model by running the following command in your terminal:
-```bash
+- After installation, you can pull the Mistral-OpenOrca model by running the following command in your terminal:
 ollama pull mistral-openorca:latest
 
 
@@ -34,5 +33,6 @@ A requirements.txt file is included with the necessary dependencies for this pro
 ## Observations
 Noticed overfitting in the case of fine-tuning.
 Comments have been added in the code to enhance understanding.
+
 ## Conclusion
 This project aims to provide an effective solution for automating the labeling of judicial opinions using state-of-the-art machine learning techniques. The combination of LLM and fine-tuned models addresses the complexity of the task while accounting for dataset imbalances.
