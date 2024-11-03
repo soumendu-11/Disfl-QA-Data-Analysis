@@ -1,38 +1,47 @@
-# Judicial Opinion Labeling Project
+# Correct Questions Pipeline
 
-## Project Overview
-The goal of this project is to develop a model that automates the labeling of text present in the "paragraph" column of a given dataset. The dataset contains 10 different labels/classes, and the objective is to accurately label judicial opinions based on these categories.
+This project processes noisy or disfluent questions, corrects them to generate coherent versions, and evaluates the contextual similarity between the original and corrected questions. The pipeline is implemented in Python and utilizes a language model to correct and evaluate the questions.
 
-## Approach
-To tackle this problem, two distinct techniques were employed:
+# Steps Involved
 
-### 1. Mistral-OpenOrca (LLM) Model
-- Utilized the Mistral-OpenOrca model hosted on the Ollama server (locally).
-- Created a prompt specifying the 10 different classes for the LLM to label the text accordingly.
-- No training of the model was performed in this approach.
-- Evaluated the model's performance based on contextual similarity between its predictions and the original labels.
+#### `Question Correction:`
 
-### 2. DistilBERT-base-uncased Model
-- Employed the DistilBERT-base-uncased model for task-specific fine-tuning.
-- Selected the two most frequently occurring classes for fine-tuning, addressing the highly imbalanced nature of the dataset.
-- Evaluated the performance of the fine-tuned model using a lightweight model due to computational limitations and a very limited number of data points.
+The function correctQuestions() is used to correct disfluent questions by sending a prompt to a pre-trained language model (e.g., mistral-openorca:latest).
+The disfluent question is corrected to be coherent, grammatically accurate, and contextually aligned with the intended meaning.
 
-## Requirements & Installation
+#### `Processing DataFrame for Question Correction:`
 
-### Installing Ollama
-- For detailed installation instructions, please visit: [Ollama Installation](https://ollama.com/download/windows).
+The df2CorrectQuestions() function takes a pandas DataFrame with a column disfluent containing noisy questions.
+It generates a new column correct_question with the corrected questions by applying the correction function to each row.
 
-### Pulling the Mistral-OpenOrca Model
-- After installation, you can pull the Mistral-OpenOrca model by running the following command in your terminal:
-ollama pull mistral-openorca:latest
+#### `Contextual Evaluation:`
 
+The evaluateQuestions() function compares the original question and the corrected question using the same language model to determine if they are contextually similar.
+The function returns 1 if the questions are contextually similar and 0 otherwise.
 
-## Dependencies
-A requirements.txt file is included with the necessary dependencies for this project. Ensure to install all required packages listed in this file.
+#### `Saving the Results:`
 
-## Observations
-Noticed overfitting in the case of fine-tuning.
-Comments have been added in the code to enhance understanding.
+The corrected questions and their evaluation results are saved in a CSV file (corrected_questions_with_evaluation.csv) in the local directory.
+The output is saved with the | delimiter for easier parsing.
 
-## Conclusion
-This project presents a promising and feasible solution for automating the labeling of judicial opinions through the innovative application of state-of-the-art machine learning techniques. By leveraging the strengths of both Large Language Models (LLMs) and fine-tuned models, we effectively tackle the complexities inherent in this task while addressing the challenges posed by dataset imbalances. The methodologies implemented not only enhance the accuracy of the labeling process but also pave the way for future advancements in legal technology. With the groundwork laid out, this project is not only achievable but also holds significant potential for improving efficiency and reducing the manual effort involved in analyzing judicial texts. We are optimistic about the prospects of further refinement and scalability, making this a highly doable and impactful initiative in the field.
+#### `Functions`
+
+correctQuestions(prompt: str, model="mistral-openorca:latest"): Sends a prompt to a language model to correct a disfluent question and returns the corrected version.
+
+df2CorrectQuestions(dataframe: pd.DataFrame, model=None): Takes a DataFrame with a disfluent column, generates corrected questions, and returns a DataFrame with a new correct_question column.
+
+evaluateQuestions(dataframe: pd.DataFrame, model="mistral-openorca:latest"): Compares the original and corrected questions for contextual similarity, adding a new column evaluation with the results (1 for similar, 0 for not similar).
+
+#### `CSV Output Format`
+
+The output CSV will contain the following columns:
+disfluent: The original noisy/disfluent question.
+original: The original intended question.
+correct_question: The corrected version of the disfluent question.
+evaluation: The context similarity score (1 for similar, 0 for not similar).
+
+#### `Usage`
+
+Prepare a DataFrame with columns disfluent and original.
+Run the correction and evaluation pipeline.
+Check the output in the CSV file corrected_questions_with_evaluation.csv.
